@@ -25,10 +25,12 @@ public class MainView extends VerticalLayout {
     private final Grid<DataModel> grid1 = new Grid<>();
     private final Grid<DataModel> grid2 = new Grid<>();
     private final ListDataProvider<DataModel> dataProvider;
+    private final ListDataProvider<DataModel> dataProvider2;
+
 
     public MainView(@Autowired EntityService service) {
         dataProvider = new ListDataProvider<>(service.findAll());
-
+        dataProvider2 = new ListDataProvider<>(service.findAll());
 // Set up Tabs
         Tab tab1 = new Tab("CRUD Grid");
         Tab tab2 = new Tab("Filtered Grid");
@@ -88,7 +90,7 @@ public class MainView extends VerticalLayout {
         VerticalLayout layout = new VerticalLayout();
 
         // Configure Grid for filtered display
-        grid2.setItems(dataProvider);
+        grid2.setItems(dataProvider2);
         grid2.addColumn(DataModel::getYear).setHeader("Year").setSortable(true);
         grid2.addColumn(DataModel::getEstCode).setHeader("EstCode").setSortable(true);
         grid2.addColumn(DataModel::getEstimate).setHeader("Estimate").setSortable(true);
@@ -108,9 +110,9 @@ public class MainView extends VerticalLayout {
         msCodeComboBox.addValueChangeListener(event -> {
             String selectedMsCode = event.getValue();
             if (selectedMsCode != null) {
-                dataProvider.setFilter(DataModel::getMsCode, msCode -> msCode.equals(selectedMsCode));
+                dataProvider2.setFilter(DataModel::getMsCode, msCode -> msCode.equals(selectedMsCode));
             } else {
-                dataProvider.clearFilters();
+                dataProvider2.clearFilters();
             }
         });
 
