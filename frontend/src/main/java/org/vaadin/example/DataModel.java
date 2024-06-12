@@ -13,7 +13,16 @@ public class DataModel {
     private String Flag;
     private UUID _id;
 
-    public DataModel(String ms1, String number, String e1, float v, float v1, float v2, float v3, String flag1, UUID uuid) {
+    public DataModel(String msCode, String year, String estCode, float estimate, float se, float lowerCIB, float upperCIB, String flag, UUID id) {
+        this.MsCode=msCode;
+        this.Year=year;
+        this.EstCode=estCode;
+        this.Estimate=estimate;
+        this.SE=se;
+        this.LowerCIB=lowerCIB;
+        this.UpperCIB=upperCIB;
+        this.Flag=flag;
+        this._id=id;
     }
 
     // Getters

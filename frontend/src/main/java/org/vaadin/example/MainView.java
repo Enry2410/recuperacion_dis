@@ -29,21 +29,30 @@ public class MainView extends VerticalLayout {
     public MainView(@Autowired EntityService service) {
         dataProvider = new ListDataProvider<>(service.findAll());
 
-        // Set up Tabs
+// Set up Tabs
         Tab tab1 = new Tab("CRUD Grid");
         Tab tab2 = new Tab("Filtered Grid");
         Tabs tabs = new Tabs(tab1, tab2);
+
+        // Create a layout for the tab content
+        VerticalLayout tabContent = new VerticalLayout();
+        setContent(tabContent);
+
         tabs.addSelectedChangeListener(event -> {
             if (event.getSelectedTab().equals(tab1)) {
-                setContent(createFirstTabContent(service));
+                tabContent.removeAll();
+                tabContent.add(createFirstTabContent(service));
             } else {
-                setContent(createSecondTabContent(service));
+                tabContent.removeAll();
+                tabContent.add(createSecondTabContent(service));
             }
         });
 
         // Initial content
-        setContent(createFirstTabContent(service));
-        add(tabs, createFirstTabContent(service));
+        tabContent.add(createFirstTabContent(service));
+
+        // Add the tabs and the tab content to the layout
+        add(tabs, tabContent);
     }
 
     private void setContent(VerticalLayout content) {
