@@ -1,6 +1,6 @@
 package dis.ufv.API.backend;
 
-import com.nimbusds.jose.shaded.gson.annotations.SerializedName;
+import com.google.gson.annotations.SerializedName;
 import java.util.UUID;
 
 public class DataModel {
