@@ -1,39 +1,40 @@
 package org.vaadin.example;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
-public class EntityService implements Serializable {
+public class EntityService {
 
-    private final List<DataModel> entities = new ArrayList<>();
+    private final RestTemplate restTemplate;
+    private final String baseUrl = "http://localhost:2223/api/data";
 
-    public EntityService() {
-        // Initial data
-        entities.add(new DataModel("MS1", "2022", "E1", 10.5f, 1.2f, 8.1f, 12.9f, "Flag1", UUID.randomUUID()));
-        entities.add(new DataModel("MS2", "2023", "E2", 11.2f, 1.4f, 9.0f, 13.4f, "Flag2", UUID.randomUUID()));
-        entities.add(new DataModel("MS1", "2024", "E3", 9.8f, 1.1f, 7.6f, 12.0f, "Flag3", UUID.randomUUID()));
+    public EntityService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
     }
 
     public List<DataModel> findAll() {
-        return new ArrayList<>(entities);
+        DataModel[] data = restTemplate.getForObject(baseUrl, DataModel[].class);
+        return Arrays.asList(data);
     }
 
     public Optional<DataModel> findById(UUID id) {
-        return entities.stream().filter(entity -> entity.get_id().equals(id)).findFirst();
+        DataModel data = restTemplate.getForObject(baseUrl + "/" + id, DataModel.class);
+        return Optional.ofNullable(data);
     }
 
     public void save(DataModel entity) {
-        findById(entity.get_id()).ifPresent(entities::remove);
-        entities.add(entity);
+        if (entity.get_id() == null) {
+            restTemplate.postForObject(baseUrl, entity, String.class);
+        } else {
+            restTemplate.put(baseUrl + "/" + entity.get_id(), entity);
+        }
     }
 
     public void delete(DataModel entity) {
-        entities.remove(entity);
+        restTemplate.delete(baseUrl + "/" + entity.get_id());
     }
 }

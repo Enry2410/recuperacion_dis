@@ -2,10 +2,8 @@ package org.vaadin.example;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
@@ -16,7 +14,6 @@ import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Route("")
@@ -24,14 +21,17 @@ public class MainView extends VerticalLayout {
 
     private final Grid<DataModel> grid1 = new Grid<>();
     private final Grid<DataModel> grid2 = new Grid<>();
-    private final ListDataProvider<DataModel> dataProvider;
-    private final ListDataProvider<DataModel> dataProvider2;
+    private ListDataProvider<DataModel> dataProvider;
+    private ListDataProvider<DataModel> dataProvider2;
+    private final EntityService service;
 
+    @Autowired
+    public MainView(EntityService service) {
+        this.service = service;
 
-    public MainView(@Autowired EntityService service) {
-        dataProvider = new ListDataProvider<>(service.findAll());
-        dataProvider2 = new ListDataProvider<>(service.findAll());
-// Set up Tabs
+        initializeDataProviders();
+
+        // Set up Tabs
         Tab tab1 = new Tab("CRUD Grid");
         Tab tab2 = new Tab("Filtered Grid");
         Tabs tabs = new Tabs(tab1, tab2);
@@ -55,6 +55,12 @@ public class MainView extends VerticalLayout {
 
         // Add the tabs and the tab content to the layout
         add(tabs, tabContent);
+    }
+
+    private void initializeDataProviders(){
+        List<DataModel> data = service.findAll();
+        dataProvider = new ListDataProvider<>(data);
+        dataProvider2 = new ListDataProvider<>(data);
     }
 
     private void setContent(VerticalLayout content) {
@@ -125,28 +131,28 @@ public class MainView extends VerticalLayout {
         VerticalLayout dialogLayout = new VerticalLayout();
 
         TextField msCodeField = new TextField("MsCode");
-        msCodeField.setValue(entity.getMsCode());
+        msCodeField.setValue(entity.getMsCode() != null ? entity.getMsCode() : "");
 
         TextField yearField = new TextField("Year");
-        yearField.setValue(entity.getYear());
+        yearField.setValue(entity.getYear() != null ? entity.getYear() : "");
 
         TextField estCodeField = new TextField("EstCode");
-        estCodeField.setValue(entity.getEstCode());
+        estCodeField.setValue(entity.getEstCode() != null ? entity.getEstCode() : "");
 
         TextField estimateField = new TextField("Estimate");
-        estimateField.setValue(String.valueOf(entity.getEstimate()));
+        estimateField.setValue(entity.getEstimate() != null ? entity.getEstimate().toString() : "0");
 
         TextField seField = new TextField("SE");
-        seField.setValue(String.valueOf(entity.getSE()));
+        seField.setValue(entity.getSE() != null ? entity.getSE().toString() : "0");
 
-        TextField lowerCIBField = new TextField("Lower CIB");
-        lowerCIBField.setValue(String.valueOf(entity.getLowerCIB()));
+        TextField lowerCIBField = new TextField("LowerCIB");
+        lowerCIBField.setValue(entity.getLowerCIB() != null ? entity.getLowerCIB().toString() : "0");
 
-        TextField upperCIBField = new TextField("Upper CIB");
-        upperCIBField.setValue(String.valueOf(entity.getUpperCIB()));
+        TextField upperCIBField = new TextField("UpperCIB");
+        upperCIBField.setValue(entity.getUpperCIB() != null ? entity.getUpperCIB().toString() : "0");
 
         TextField flagField = new TextField("Flag");
-        flagField.setValue(entity.getFlag());
+        flagField.setValue(entity.getFlag() != null ? entity.getFlag() : "");
 
         Button saveButton = new Button("Save", e -> {
             // Save changes to the entity
