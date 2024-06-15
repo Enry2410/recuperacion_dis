@@ -5,7 +5,7 @@
     <!-- Vaadin project from https://github.com/vaadin/skeleton-starter-flow-spring -->
     <groupId>com.example</groupId>
     <artifactId>spring-skeleton</artifactId>
-    <name>Project base for Spring Boot and Vaadin Flow</name>
+    <name>Practica 2 Convocatoria Extraordinaria</name>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 

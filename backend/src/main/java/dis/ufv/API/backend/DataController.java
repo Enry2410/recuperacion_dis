@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.UUID;
 
 @CrossOrigin(origins = "*")
-@RestController
-@RequestMapping("/api/data")
+@RestController                            // Controller class for HTTP requests
+@RequestMapping("/api/data")            // Base URL for our API
 public class DataController {
     private final DataService dataService;
 
@@ -20,7 +20,7 @@ public class DataController {
         this.dataService = dataService;
     }
 
-    @GetMapping
+    @GetMapping                 // Endpoint to retrieve data form the unsorted JSON
     public ResponseEntity<List<DataModel>> getAllData() {
         try {
             List<DataModel> data = dataService.getAllData();
@@ -30,7 +30,17 @@ public class DataController {
         }
     }
 
-    @PostMapping
+    @GetMapping("/readonly")    // Endpoint to retrieve data form the sorted JSON
+    public ResponseEntity<List<DataModel>> getAllReadOnlyData() {
+        try {
+            List<DataModel> data = dataService.getAllReadOnlyData();
+            return new ResponseEntity<>(data, HttpStatus.OK);
+        } catch (IOException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping                // Endpoint to add new data
     public ResponseEntity<String> addData(@RequestBody DataModel newData) {
         try {
             UUID newId = UUID.randomUUID();
@@ -42,7 +52,7 @@ public class DataController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}")        // Endpoint to modify existing data
     public ResponseEntity<String> updateData(@PathVariable UUID id, @RequestBody DataModel updatedData) {
         try {
             if (!id.equals(updatedData.get_id())) {
@@ -60,7 +70,7 @@ public class DataController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")     // Endpoint to delete existing data
     public ResponseEntity<String> deleteData(@PathVariable UUID id) {
         try {
             boolean isDeleted = dataService.deleteData(id);
@@ -73,4 +83,6 @@ public class DataController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
 }
