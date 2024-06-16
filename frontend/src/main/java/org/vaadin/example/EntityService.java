@@ -15,8 +15,8 @@ public class EntityService {
 
     private static final Logger logger = LoggerFactory.getLogger(EntityService.class);
     private final RestTemplate restTemplate;                                                //RestTemplate for HTTP Requests
-    private final String baseUrl = "http://localhost:2223/api/data";                        //URL for unsorted JSON
-    private final String mscodeUrl = "http://localhost:2223/api/data/readonly";             //URL for sorted JSON
+    private final String baseUrl = "http://backend:2223/api/data";                        //URL for unsorted JSON
+    private final String mscodeUrl = "http://backend:2223/api/data/readonly";             //URL for sorted JSON
 
     public EntityService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
