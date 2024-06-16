@@ -1,4 +1,11 @@
-/target/
+target/classes
+target/generated-sources
+target/generated-test-sources
+target/maven-archiver
+target/maven-status
+target/plugins
+target/test-classes
+target/frontend
 .idea/
 .vscode/
 .settings

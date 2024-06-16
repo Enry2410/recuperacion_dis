@@ -1,0 +1,16 @@
+{
+  "frontendFolder": "E:/git/DiS_Ex/recuperacion_dis/frontend/frontend",
+  "themeFolder": "themes",
+  "themeResourceFolder": "E:/git/DiS_Ex/recuperacion_dis/frontend/frontend/generated/jar-resources",
+  "staticOutput": "target/classes/META-INF/VAADIN/webapp/VAADIN/static",
+  "generatedFolder": "generated",
+  "statsOutput": "target/classes/META-INF/VAADIN/webapp/../config/",
+  "frontendBundleOutput": "target/classes/META-INF/VAADIN/webapp/",
+  "jarResourcesFolder": "E:/git/DiS_Ex/recuperacion_dis/frontend/frontend/generated/jar-resources",
+  "generatedFlowImportsFolder": "target/frontend",
+  "themeName": "",
+  "clientServiceWorkerSource": "E:\\git\\DiS_Ex\\recuperacion_dis\\frontend\\target\\sw.ts",
+  "pwaEnabled": false,
+  "offlineEnabled": false,
+  "offlinePath": "'offline.html'"
+}
